@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Responsible AI, Ethics & Governance Interactive Master App</title>
+<style>
+:root{
+  --nav:#0f172a;--nav2:#1e293b;--bg:#f8fafc;--panel:#ffffff;--ink:#172033;--muted:#5f6b7d;
+  --line:#d9e2ec;--blue:#2563eb;--blue2:#dbeafe;--green:#047857;--green2:#d1fae5;
+  --red:#b42318;--red2:#fee4e2;--amber:#9a6700;--amber2:#fef3c7;--purple:#6d28d9;--purple2:#ede9fe;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+button,input,select{font:inherit}
+a{color:#174ea6}
+.app{display:grid;grid-template-columns:300px 1fr;min-height:100vh}
+aside{position:sticky;top:0;height:100vh;overflow:auto;background:var(--nav);color:#eef2ff;padding:18px 14px;border-right:1px solid #263248}
+.brand{padding:8px 10px 16px;border-bottom:1px solid #334155}
+.brand h1{font-size:1.15rem;margin:0 0 5px}
+.brand p{font-size:.84rem;color:#b7c1d4;margin:0}
+.progressBox{margin:14px 8px;padding:12px;border:1px solid #334155;border-radius:12px;background:#0b1220}
+.track{height:10px;background:#243247;border-radius:999px;overflow:hidden}
+.fill{height:100%;width:0;background:linear-gradient(90deg,#60a5fa,#34d399);transition:.25s}
+#progressText{font-size:.8rem;color:#c3cfde;margin-top:6px}
+.navbtn{display:block;width:100%;text-align:left;background:transparent;border:0;color:#dbe4f1;padding:9px 10px;border-radius:8px;margin:2px 0;cursor:pointer}
+.navbtn:hover,.navbtn.active{background:var(--nav2);color:white}
+main{max-width:1450px;padding:30px clamp(18px,4vw,54px) 70px}
+.hero{background:linear-gradient(135deg,#eaf2ff,#fff 50%,#ecfdf5);border:1px solid var(--line);border-radius:22px;padding:30px}
+.hero h2{font-size:clamp(2rem,5vw,3.2rem);line-height:1.1;margin:0 0 12px}
+.hero p{max-width:1000px;color:#3d4b60;font-size:1.05rem}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}
+.badge{background:white;border:1px solid #cad5e2;border-radius:999px;padding:6px 9px;font-size:.8rem}
+section{margin-top:30px;scroll-margin-top:18px}
+.sectionHead{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:12px}
+.sectionHead h2{margin:0;font-size:1.7rem}
+.sectionHead p{margin:0;max-width:760px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:13px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:16px}
+.card h3{margin:0 0 6px}
+.soft{background:#f2f7fd;border:1px solid #d9e6f5;border-radius:13px;padding:14px}
+.callout{border-left:5px solid var(--blue);background:#edf5ff;padding:14px;border-radius:9px}
+.callout.good{border-left-color:var(--green);background:var(--green2)}
+.callout.warn{border-left-color:#d19b17;background:var(--amber2)}
+.principle{border-top:4px solid var(--blue)}
+.small{font-size:.87rem;color:var(--muted)}
+.compare{overflow:auto}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line)}
+th,td{padding:11px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+th{background:#edf3fa}
+.flash{min-height:175px;border:2px solid #93b4e8;border-radius:14px;background:#eff6ff;padding:22px;display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer}
+.btn{border:1px solid #b8c6d8;background:#fff;color:#1f2937;border-radius:9px;padding:9px 12px;cursor:pointer}
+.btn.primary{background:var(--blue);color:white;border-color:var(--blue)}
+.btn.term{background:#eef2ff;border-color:#c7d2fe}
+.btn.selected{outline:3px solid #60a5fa}
+.choice{display:block;width:100%;text-align:left;border:1px solid #c7d2df;background:#fff;color:#1f2937;border-radius:10px;padding:9px 11px;margin:6px 0;cursor:pointer}
+.choice.correct{background:var(--green2);border-color:#4fa87a}
+.choice.wrong{background:var(--red2);border-color:#da8c85}
+.feedback{margin-top:8px;padding:9px;border-radius:8px;background:#eef4fb;display:none}
+.feedback.show{display:block}
+.target{border:2px dashed #cbd5e1;border-radius:10px;padding:12px;min-height:65px;background:#fff;cursor:pointer}
+.target.done{border-style:solid;border-color:#4fa87a;background:#ecfdf5}
+.step{display:flex;gap:12px;align-items:flex-start;margin:11px 0}
+.num{width:34px;height:34px;flex:none;border-radius:50%;background:#173b6c;color:white;display:flex;align-items:center;justify-content:center;font-weight:bold}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.flow .card{text-align:center}
+.framework{border-left:4px solid var(--purple)}
+.quizQ{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.quizQ label{display:block;padding:5px 0}
+.score{font-size:1.15rem;font-weight:bold;margin-top:12px}
+details{border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;margin:8px 0}
+summary{cursor:pointer;font-weight:bold}
+.sourceLinks a{display:inline-block;margin:4px 6px 4px 0;background:#edf4ff;border:1px solid #c6d7f0;border-radius:8px;padding:7px 10px;text-decoration:none}
+@media(max-width:950px){
+ .app{display:block}aside{position:relative;height:auto}.navwrap{display:flex;overflow:auto}.navbtn{min-width:max-content}
+ .flow{grid-template-columns:1fr 1fr}main{padding:20px}
+}
+@media(max-width:560px){.flow{grid-template-columns:1fr}}
+.ttsbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0}
+.ttsbar select{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:#fff}
+@media print{
+  aside,.ttsbar,.btn,#gradeQuiz,#resetQuiz,#checkAudit{display:none!important}
+  .app{display:block}
+  main{max-width:none;padding:0}
+  body{background:#fff;color:#000}
+  section{break-inside:avoid}
+  .card,.soft,.callout,.hero,.quizQ,table{box-shadow:none!important;background:#fff!important;color:#000!important}
+  a{color:#000;text-decoration:underline}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+  <div class="brand"><h1>Responsible AI Master Lab</h1><p>Principles • Ethics • Governance • Practice</p></div>
+  <div class="progressBox"><div class="track"><div class="fill" id="progressFill"></div></div><div id="progressText">0% complete</div></div>
+  <div class="navwrap">
+    <button class="navbtn active" data-go="start">Start</button>
+    <button class="navbtn" data-go="origins">Who Creates Principles?</button>
+    <button class="navbtn" data-go="principles">Core Principles</button>
+    <button class="navbtn" data-go="differences">Tell Them Apart</button>
+    <button class="navbtn" data-go="flashcards">Flashcards</button>
+    <button class="navbtn" data-go="matching">Matching</button>
+    <button class="navbtn" data-go="scenarios">Scenario Lab</button>
+    <button class="navbtn" data-go="ethics">Ethics</button>
+    <button class="navbtn" data-go="governance">AI Governance</button>
+    <button class="navbtn" data-go="lifecycle">Responsible AI Lifecycle</button>
+    <button class="navbtn" data-go="audit">Human-Centered Audit</button>
+    <button class="navbtn" data-go="frameworks">Microsoft / Google / AWS / NIST</button>
+    <button class="navbtn" data-go="quiz">Final Mastery Quiz</button>
+    <button class="navbtn" data-go="glossary">Glossary</button>
+  </div>
+</aside>
+
+<main>
+
+<div class="ttsbar">
+  <button class="btn primary" id="readSectionBtn">🔊 Read Current Section</button>
+  <button class="btn" id="pauseSpeechBtn">⏸ Pause</button>
+  <button class="btn" id="resumeSpeechBtn">▶ Resume</button>
+  <button class="btn" id="stopSpeechBtn">⏹ Stop</button>
+  <label class="small">Speed
+    <select id="speechRate">
+      <option value="0.8">0.8×</option>
+      <option value="1" selected>1×</option>
+      <option value="1.2">1.2×</option>
+      <option value="1.4">1.4×</option>
+    </select>
+  </label>
+  <button class="btn" id="printBtn">🖨 Print Lesson</button>
+</div>
+
+<section id="start">
+<div class="hero">
+  <div class="badge">Essential Question</div>
+  <h2>How can we evaluate whether an AI system is fair, transparent, accountable, and centered on human well-being?</h2>
+  <p>This app focuses only on that learning goal. You will first understand Responsible AI principles, learn how to distinguish them, apply them to daily-life and AI scenarios, connect them to ethics, understand AI governance, and finally evaluate an AI system through a complete Responsible AI lifecycle.</p>
+  <div class="badges"><span class="badge">Fairness</span><span class="badge">Transparency</span><span class="badge">Accountability</span><span class="badge">Human Well-being</span><span class="badge">Ethics</span><span class="badge">Governance</span></div>
+</div>
+
+<div class="grid" style="margin-top:14px">
+  <div class="card"><h3>KNOW</h3><p>Responsible AI principles, ethics, governance, human oversight, explainability, privacy, safety, and inclusiveness.</p></div>
+  <div class="card"><h3>UNDERSTAND</h3><p>Responsible AI is not a single checklist created by one company. Organizations translate ethical values into principles, standards, processes, and controls.</p></div>
+  <div class="card"><h3>DO</h3><p>Distinguish principles, analyze scenarios, evaluate AI decisions, complete an AI audit, and justify whether a system should be deployed.</p></div>
+</div>
+</section>
+
+<section id="origins">
+<div class="sectionHead"><div><h2>1. Who Creates Responsible AI Principles?</h2><p>There is no single worldwide company or person who created all Responsible AI principles.</p></div></div>
+<div class="callout"><b>Simple answer:</b> Responsible AI principles are created by governments, standards organizations, researchers, companies, universities, civil-society groups, and professional organizations. They take broad ethical values and turn them into guidance for designing and using AI.</div>
+
+<div class="grid" style="margin-top:14px">
+  <div class="card framework"><h3>Microsoft</h3><p>Microsoft organizes its approach around six principles: fairness, reliability & safety, privacy & security, inclusiveness, transparency, and accountability.</p></div>
+  <div class="card framework"><h3>Google</h3><p>Google publishes AI Principles that describe how it approaches innovation, responsible development and deployment, and collaboration. Google also publishes safety and responsibility practices.</p></div>
+  <div class="card framework"><h3>Amazon / AWS</h3><p>AWS describes Responsible AI as designing, developing, and using AI to maximize benefits and minimize risks across the lifecycle.</p></div>
+  <div class="card framework"><h3>NIST</h3><p>The U.S. National Institute of Standards and Technology created the voluntary AI Risk Management Framework to help organizations incorporate trustworthiness into AI design, development, use, and evaluation.</p></div>
+</div>
+
+<div class="callout warn" style="margin-top:14px"><b>Important:</b> The wording differs between organizations, but the themes overlap: fairness, safety, privacy, transparency, accountability, explainability, security, human oversight, and managing harmful risks.</div>
+</section>
+
+<section id="principles">
+<div class="sectionHead"><div><h2>2. Responsible AI Principles in Simple Language</h2><p>Use these as lenses. One AI system can raise several principles at the same time.</p></div></div>
+<div class="grid">
+  <div class="card principle"><h3>⚖ Fairness</h3><p>People should not receive unjustifiably different treatment, opportunities, outcomes, or error rates.</p><p class="small"><b>Daily life:</b> Identical work should not receive different grades because of a student's name.</p><p class="small"><b>AI:</b> A hiring model should not systematically rank equally qualified applicants lower because historical hiring favored one group.</p></div>
+  <div class="card principle"><h3>🔎 Transparency</h3><p>People should know when AI is being used, its purpose, and important limitations.</p><p class="small"><b>Daily life:</b> A store tells customers that cameras are operating.</p><p class="small"><b>AI:</b> Students are told that AI helps review written assignments.</p></div>
+  <div class="card principle"><h3>👤 Accountability</h3><p>A person or organization remains responsible for the AI system and its consequences.</p><p class="small"><b>Daily life:</b> A manager is responsible for correcting an employee's harmful mistake.</p><p class="small"><b>AI:</b> A bank cannot say “the algorithm denied you, so nobody is responsible.”</p></div>
+  <div class="card principle"><h3>🛡 Reliability & Safety</h3><p>The AI should work consistently and be tested for realistic failures and harmful situations.</p><p class="small"><b>Daily life:</b> A smoke detector should work when needed.</p><p class="small"><b>AI:</b> Driver-assistance software must be tested in darkness, rain, construction zones, and sensor failures.</p></div>
+  <div class="card principle"><h3>🔐 Privacy & Security</h3><p>Collect only appropriate data, protect it, and prevent unauthorized access or misuse.</p><p class="small"><b>Daily life:</b> A gym does not need your full medical file to sell a day pass.</p><p class="small"><b>AI:</b> An algebra tutor should not require complete medical records.</p></div>
+  <div class="card principle"><h3>♿ Inclusiveness</h3><p>Different people should be able to use and benefit from the system.</p><p class="small"><b>Daily life:</b> A building includes accessible entrances.</p><p class="small"><b>AI:</b> Voice AI should be tested with different accents, speaking styles, and accessibility needs.</p></div>
+  <div class="card principle"><h3>🧠 Explainability</h3><p>People affected by an important AI output should receive an understandable reason.</p><p class="small"><b>Daily life:</b> A teacher explains why points were deducted.</p><p class="small"><b>AI:</b> A loan applicant receives the important factors behind a decision.</p></div>
+  <div class="card principle"><h3>🧑‍⚖ Human Oversight</h3><p>Humans should be able to review, question, override, appeal, or stop AI when the risk requires it.</p><p class="small"><b>Daily life:</b> A supervisor can correct a mistaken decision.</p><p class="small"><b>AI:</b> A clinician can reject an AI recommendation when other evidence disagrees.</p></div>
+</div>
+</section>
+
+<section id="differences">
+<div class="sectionHead"><div><h2>3. Learn to Tell the Principles Apart</h2><p>Students often recognize that something feels wrong but name the wrong principle. Use these contrasts.</p></div></div>
+<div class="compare"><table>
+<thead><tr><th>Often Confused</th><th>Difference</th><th>Memory Question</th><th>AI Example</th></tr></thead>
+<tbody>
+<tr><td>Fairness vs Inclusiveness</td><td>Fairness looks at unjustified disparities. Inclusiveness looks at access and participation.</td><td>Fairness: “Who gets worse outcomes?”<br>Inclusiveness: “Who cannot use it?”</td><td>A voice system may treat recognized users equally but still exclude some accents.</td></tr>
+<tr><td>Transparency vs Explainability</td><td>Transparency says AI is involved. Explainability gives understandable reasons for a particular outcome.</td><td>Transparency: “Do I know AI is here?”<br>Explainability: “Why did I get this result?”</td><td>“We use AI in hiring” vs “these job-related factors influenced your score.”</td></tr>
+<tr><td>Accountability vs Human Oversight</td><td>Accountability assigns responsibility. Oversight provides practical human control.</td><td>Accountability: “Who owns this?”<br>Oversight: “Who can intervene?”</td><td>A hospital owns responsibility; clinicians review recommendations.</td></tr>
+<tr><td>Privacy vs Security</td><td>Privacy asks whether data should be collected/used. Security asks whether it is protected.</td><td>Privacy: “Should we have this data?”<br>Security: “Can others steal or change it?”</td><td>A perfectly encrypted database can still collect unnecessary face scans.</td></tr>
+<tr><td>Fairness vs Accuracy</td><td>Overall accuracy can hide subgroup errors.</td><td>“Accurate for whom?”</td><td>95% overall accuracy may hide 75% accuracy for one population.</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="flashcards">
+<div class="sectionHead"><div><h2>4. Interactive Flashcards</h2><p>Predict the principle first, then reveal the answer.</p></div><span class="badge" id="flashCounter">1 / 10</span></div>
+<div class="flash" id="flashCard"></div>
+<div style="margin-top:10px"><button class="btn" id="prevFlash">← Previous</button><button class="btn primary" id="nextFlash">Next →</button></div>
+</section>
+
+<section id="matching">
+<div class="sectionHead"><div><h2>5. Match the Following</h2><p>Select a principle, then select its correct description.</p></div></div>
+<div id="termBank" style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px"></div>
+<div class="grid" id="matchBank"></div>
+<p id="matchStatus"></p>
+</section>
+
+<section id="scenarios">
+<div class="sectionHead"><div><h2>6. Scenario Lab</h2><p>Every question has four answer choices. Select the strongest Responsible AI principle.</p></div></div>
+<div id="scenarioArea"></div>
+</section>
+
+<section id="ethics">
+<div class="sectionHead"><div><h2>7. What Is Ethics, and Why Must AI Be Ethical?</h2><p>Ethics is the foundation underneath Responsible AI.</p></div></div>
+<p><b>Ethics</b> is the study of what we should do, what is fair or harmful, what responsibilities we have to other people, and what choices support human well-being.</p>
+<div class="callout"><b>Relationship:</b> Ethics gives us the values. Responsible AI turns those values into practical principles, tests, rules, reviews, documentation, safeguards, and monitoring.</div>
+
+<div class="grid" style="margin-top:14px">
+  <div class="card"><h3>Why ethical AI matters: Scale</h3><p>An automated system can affect thousands or millions of people quickly. A small design problem can become a large social problem.</p></div>
+  <div class="card"><h3>Why ethical AI matters: Power</h3><p>AI can influence hiring, loans, education, healthcare, safety, recommendations, and access to opportunities.</p></div>
+  <div class="card"><h3>Why ethical AI matters: Hidden complexity</h3><p>People may not know an algorithm influenced them or may not understand how a result was produced.</p></div>
+  <div class="card"><h3>Why ethical AI matters: Human dignity</h3><p>People should not lose meaningful choice, privacy, safety, opportunity, or the ability to challenge an important decision simply because a computer is involved.</p></div>
+</div>
+
+<h3 style="margin-top:18px">Ethics → Responsible AI</h3>
+<div class="compare"><table>
+<thead><tr><th>Ethical Question</th><th>Responsible AI Action</th></tr></thead>
+<tbody>
+<tr><td>Could this system unfairly deny someone an opportunity?</td><td>Conduct fairness testing and examine outcomes/error rates across relevant groups.</td></tr>
+<tr><td>Are we collecting information we do not need?</td><td>Use data minimization, privacy review, access controls, and retention limits.</td></tr>
+<tr><td>Could someone be seriously harmed if the model is wrong?</td><td>Conduct safety testing, set thresholds, add human oversight, and create a safe fallback.</td></tr>
+<tr><td>Do people understand that AI influences them?</td><td>Add transparency and appropriate explanations.</td></tr>
+<tr><td>Who repairs harm?</td><td>Assign accountability and escalation procedures.</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="governance">
+<div class="sectionHead"><div><h2>8. What Is AI Governance?</h2><p>Governance is how an organization turns Responsible AI principles into repeatable rules and accountability.</p></div></div>
+<div class="callout"><b>Simple definition:</b> <b>AI governance</b> is the system of policies, roles, approvals, standards, documentation, testing requirements, monitoring, and decision-making processes an organization uses to control how AI is created and used.</div>
+
+<div class="grid" style="margin-top:14px">
+  <div class="card"><h3>Policy</h3><p>What AI uses are allowed, restricted, or prohibited?</p></div>
+  <div class="card"><h3>Roles</h3><p>Who owns the system? Who reviews risk? Who approves deployment?</p></div>
+  <div class="card"><h3>Documentation</h3><p>What is the purpose, data, model, limitations, testing evidence, and intended user population?</p></div>
+  <div class="card"><h3>Risk Review</h3><p>How serious is the possible harm? Does a high-impact use require stronger review?</p></div>
+  <div class="card"><h3>Monitoring</h3><p>Who watches performance, drift, complaints, misuse, and unexpected harms after launch?</p></div>
+  <div class="card"><h3>Escalation</h3><p>Who can restrict, pause, roll back, or retire the AI system?</p></div>
+</div>
+
+<div class="callout warn" style="margin-top:14px"><b>Easy distinction:</b> <b>Ethics</b> asks what should be right. <b>Responsible AI</b> describes principles and practices for acting responsibly. <b>AI governance</b> makes those responsibilities enforceable and repeatable inside an organization.</div>
+
+<h3 style="margin-top:18px">NIST AI RMF: Four Useful Governance Functions</h3>
+<div class="flow">
+  <div class="card"><h3>GOVERN</h3><p>Create policies, roles, culture, accountability, and oversight.</p></div>
+  <div class="card"><h3>MAP</h3><p>Understand the context, people affected, intended use, risks, and possible impacts.</p></div>
+  <div class="card"><h3>MEASURE</h3><p>Test and evaluate performance, trustworthiness, fairness, safety, privacy, and other risks.</p></div>
+  <div class="card"><h3>MANAGE</h3><p>Prioritize risks, apply controls, monitor them, and respond when problems occur.</p></div>
+</div>
+</section>
+
+<section id="lifecycle">
+<div class="sectionHead"><div><h2>9. Necessary Steps for Responsible & Ethical AI</h2><p>Responsibility starts before the model exists and continues after deployment.</p></div></div>
+<div class="step"><div class="num">1</div><div><b>Define the human purpose.</b><br>What problem are we solving? Why is AI needed? Could a simpler non-AI solution work?</div></div>
+<div class="step"><div class="num">2</div><div><b>Identify stakeholders, benefits, and harms.</b><br>Who uses it? Who is affected? What happens if it is wrong?</div></div>
+<div class="step"><div class="num">3</div><div><b>Assess whether AI should be used.</b><br>Some decisions may be too sensitive, unnecessary, or high-risk for full automation.</div></div>
+<div class="step"><div class="num">4</div><div><b>Choose appropriate data.</b><br>Relevant, representative, accurate, authorized, protected, and limited to what is necessary.</div></div>
+<div class="step"><div class="num">5</div><div><b>Choose the right target.</b><br>Are we measuring what we actually care about or merely using a convenient proxy?</div></div>
+<div class="step"><div class="num">6</div><div><b>Build with safeguards.</b><br>Privacy, security, acceptable-use rules, limits, and human control should be designed in—not added at the end.</div></div>
+<div class="step"><div class="num">7</div><div><b>Test performance and fairness.</b><br>Evaluate overall performance, relevant subgroups, false positives, false negatives, unusual conditions, accessibility, and safety.</div></div>
+<div class="step"><div class="num">8</div><div><b>Add transparency and explainability.</b><br>Tell people when appropriate and provide understandable explanations for important outcomes.</div></div>
+<div class="step"><div class="num">9</div><div><b>Add meaningful human oversight.</b><br>Create review, override, appeal, escalation, and stop mechanisms.</div></div>
+<div class="step"><div class="num">10</div><div><b>Assign accountability.</b><br>Name the person/team responsible for approval, complaints, monitoring, and remediation.</div></div>
+<div class="step"><div class="num">11</div><div><b>Deploy carefully.</b><br>Use staged rollout, limits, documentation, training, and safe fallback procedures when appropriate.</div></div>
+<div class="step"><div class="num">12</div><div><b>Monitor and improve.</b><br>Watch for drift, changing populations, misuse, complaints, new harms, and model degradation.</div></div>
+<div class="step"><div class="num">13</div><div><b>Correct, restrict, or stop.</b><br>If risks cannot be reduced enough, responsible governance may require retiring the AI system.</div></div>
+</section>
+
+<section id="audit">
+<div class="sectionHead"><div><h2>10. Human-Centered AI Audit</h2><p>Imagine your school wants AI to identify students who may need extra academic support. Select every question that should be asked before deployment.</p></div></div>
+<div id="auditChoices"></div>
+<button class="btn primary" id="checkAudit" style="margin-top:10px">Check My Audit</button>
+<div id="auditFeedback"></div>
+</section>
+
+<section id="frameworks">
+<div class="sectionHead"><div><h2>11. How Major Organizations Frame Responsible AI</h2><p>These organizations overlap, but they do not use identical wording.</p></div></div>
+<div class="grid">
+  <div class="card framework"><h3>Microsoft</h3><p><b>Six principles:</b> fairness; reliability & safety; privacy & security; inclusiveness; transparency; accountability.</p><p class="small">Good classroom use: a clear vocabulary framework for distinguishing major Responsible AI concerns.</p></div>
+  <div class="card framework"><h3>Google</h3><p>Google’s current AI Principles emphasize bold innovation, responsible development and deployment, and collaborative progress, supported by safety and responsibility practices.</p><p class="small">Good classroom use: shows that principles evolve and may be expressed at a broader organizational level.</p></div>
+  <div class="card framework"><h3>AWS</h3><p>AWS defines Responsible AI around maximizing benefits and minimizing risks throughout design, development, deployment, and ongoing use.</p><p class="small">Good classroom use: emphasizes lifecycle implementation.</p></div>
+  <div class="card framework"><h3>NIST</h3><p>The AI Risk Management Framework helps organizations operationalize trustworthy AI through Govern, Map, Measure, and Manage.</p><p class="small">Good classroom use: connects ethics and principles to governance and risk management.</p></div>
+</div>
+
+<div class="sourceLinks" style="margin-top:16px">
+  <a href="https://www.microsoft.com/en-us/ai/principles-and-approach" target="_blank" rel="noopener">Microsoft Responsible AI Principles</a>
+  <a href="https://www.microsoft.com/en-us/ai/responsible-ai" target="_blank" rel="noopener">Microsoft Responsible AI</a>
+  <a href="https://ai.google/principles/" target="_blank" rel="noopener">Google AI Principles</a>
+  <a href="https://ai.google/safety/" target="_blank" rel="noopener">Google AI Safety & Responsibility</a>
+  <a href="https://aws.amazon.com/ai/responsible-ai/" target="_blank" rel="noopener">AWS Responsible AI</a>
+  <a href="https://aws.amazon.com/ai/responsible-ai/resources/" target="_blank" rel="noopener">AWS Responsible AI Resources</a>
+  <a href="https://www.nist.gov/itl/ai-risk-management-framework" target="_blank" rel="noopener">NIST AI Risk Management Framework</a>
+  <a href="https://airc.nist.gov/" target="_blank" rel="noopener">NIST AI Resource Center</a>
+</div>
+</section>
+
+<section id="quiz">
+<div class="sectionHead"><div><h2>12. Final Mastery Quiz</h2><p>20 questions. Every MCQ has four choices. Score 16/20 or higher for mastery.</p></div></div>
+<div id="quizArea"></div>
+<button class="btn primary" id="gradeQuiz">Grade Quiz</button>
+<button class="btn" id="resetQuiz">Reset Quiz</button>
+<div class="score" id="quizScore"></div>
+</section>
+
+<section id="glossary">
+<div class="sectionHead"><div><h2>13. Simple-Language Glossary</h2><p>Use this section whenever a term feels unfamiliar.</p></div></div>
+<details><summary>Responsible AI</summary><p>Designing, building, using, and monitoring AI in ways that maximize benefits and reduce unacceptable risks and harms.</p></details>
+<details><summary>Ethics</summary><p>Reasoning about what we should do, what is fair, what may cause harm, and what responsibilities we have to other people.</p></details>
+<details><summary>AI Governance</summary><p>The policies, roles, approval processes, standards, documentation, monitoring, and accountability used to control AI inside an organization.</p></details>
+<details><summary>Fairness</summary><p>Examining whether people or groups receive unjustifiably different outcomes, treatment, opportunities, or errors.</p></details>
+<details><summary>Transparency</summary><p>Making important information visible, including whether AI is used, its purpose, and major limitations.</p></details>
+<details><summary>Explainability</summary><p>Helping a person understand why an AI system produced an important output or recommendation.</p></details>
+<details><summary>Accountability</summary><p>Assigning humans or organizations responsibility for AI decisions and remediation.</p></details>
+<details><summary>Human Oversight</summary><p>Meaningful human ability to review, question, override, appeal, or stop an AI system.</p></details>
+<details><summary>Model Drift</summary><p>When real-world conditions change and the model no longer performs like it did during testing.</p></details>
+<details><summary>Proxy Variable</summary><p>A measurable feature used as a stand-in for something else. A proxy may unintentionally carry bias.</p></details>
+</section>
+
+
+<section id="completionCheck">
+<div class="sectionHead"><div><h2>14. Lesson Completion Check</h2><p>Complete this final reflection after you have worked through the lesson.</p></div></div>
+<div class="card">
+  <p><b>Which statement best summarizes Responsible AI?</b></p>
+  <button class="choice lessonCompleteChoice" data-ok="0">Responsible AI means making AI as accurate and fast as possible.</button>
+  <button class="choice lessonCompleteChoice" data-ok="1">Responsible AI means designing, using, governing, and monitoring AI so benefits are maximized while fairness, transparency, accountability, safety, privacy, human oversight, and human well-being are protected.</button>
+  <button class="choice lessonCompleteChoice" data-ok="0">Responsible AI is only about preventing bias.</button>
+  <button class="choice lessonCompleteChoice" data-ok="0">Responsible AI means letting the model make decisions without human interference.</button>
+  <div id="completionFeedback" class="feedback"></div>
+</div>
+</section>
+
+<section>
+<div class="callout good"><b>Answer to the Essential Question:</b> We evaluate an AI system by asking who benefits and who may be harmed; whether outcomes and errors are fair; whether people know AI is being used; whether important results can be explained; whether humans remain accountable and able to intervene; whether privacy, security, safety, and inclusiveness are protected; and whether human rights, dignity, choice, and well-being remain more important than simply automating a decision.</div>
+</section>
+</main>
+</div>
+
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const state={activities:new Set()};
+const sectionIds=['start','origins','principles','differences','flashcards','matching','scenarios','ethics','governance','lifecycle','audit','frameworks','quiz','glossary'];
+
+/*
+Progress is based ONLY on completed learning activities.
+Opening or scrolling through a section does not count as progress.
+There are 6 scored activity groups:
+1) Flashcards
+2) Matching
+3) Scenario Lab
+4) Human-Centered Audit
+5) Final Quiz
+6) Lesson Completion Check
+*/
+function updateProgress(){
+  const totalActivities=6;
+  const earned=Math.min(totalActivities,state.activities.size);
+  const pct=Math.round(earned/totalActivities*100);
+  $('#progressFill').style.width=pct+'%';
+  $('#progressText').textContent=pct+'% complete • '+earned+'/'+totalActivities+' activities';
+}
+function markActivity(x){state.activities.add(x);updateProgress()}
+function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+$$('.navbtn').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+
+// Scrolling only updates the highlighted navigation item. It does NOT increase progress.
+const obs=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting&&e.intersectionRatio>.25){
+    $$('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.go===e.target.id));
+  }
+}),{threshold:[.25]});
+sectionIds.forEach(id=>obs.observe(document.getElementById(id)));
+
+const flashcards=[
+['A company tells job applicants that AI helps screen résumés.','Transparency — people know AI is being used and why.'],
+['A hospital model makes significantly more errors for one patient group.','Fairness — examine disparities in outcomes and error rates.'],
+['A bank assigns a team to investigate and correct harmful AI decisions.','Accountability — a person or organization remains responsible.'],
+['An AI tutor refuses to collect medical information it does not need.','Privacy — collect only appropriate information.'],
+['A voice assistant is tested with many accents and speech styles.','Inclusiveness — different people should be able to use the system.'],
+['A doctor can override an AI recommendation.','Human Oversight — humans have practical power to intervene.'],
+['A loan applicant receives understandable reasons for a denial.','Explainability — important outputs should be understandable.'],
+['A driving model is tested in rain, darkness, and sensor failures.','Reliability & Safety — test real conditions and failure modes.'],
+['A secure database stores unnecessary face scans.','Privacy problem — security alone does not justify collecting data.'],
+['A company publishes who approves, monitors, and can stop a high-risk AI system.','AI Governance + Accountability — roles and authority are defined.']
+];
+let fi=0,reveal=false;
+function renderFlash(){reveal=false;$('#flashCounter').textContent=(fi+1)+' / '+flashcards.length;$('#flashCard').innerHTML='<div><b>Which principle or concept?</b><br><br>'+flashcards[fi][0]+'<br><span class="small">Click to reveal</span></div>'}
+$('#flashCard').addEventListener('click',()=>{reveal=!reveal;$('#flashCard').innerHTML=reveal?'<div><b>Answer</b><br><br>'+flashcards[fi][1]+'</div>':'<div><b>Which principle or concept?</b><br><br>'+flashcards[fi][0]+'<br><span class="small">Click to reveal</span></div>';markActivity('flash')});
+$('#nextFlash').addEventListener('click',()=>{fi=(fi+1)%flashcards.length;renderFlash()});
+$('#prevFlash').addEventListener('click',()=>{fi=(fi-1+flashcards.length)%flashcards.length;renderFlash()});
+renderFlash();
+
+const matches=[
+['Fairness','Checks for unjustified differences in outcomes or errors.'],
+['Transparency','Makes AI use, purpose, and important limitations visible.'],
+['Accountability','Identifies who is responsible for the system and harm.'],
+['Privacy','Limits collection and use of personal information.'],
+['Explainability','Provides understandable reasons for important outputs.'],
+['Human Oversight','Allows people to review, override, appeal, or stop AI.'],
+['AI Governance','Creates policies, roles, approvals, monitoring, and escalation processes.'],
+['Ethics','Asks what should be done and what protects human well-being.']
+];
+let selected=null, solved=0;
+[...matches].sort(()=>Math.random()-.5).forEach(([t])=>{
+ let b=document.createElement('button');b.className='btn term';b.textContent=t;b.dataset.term=t;
+ b.addEventListener('click',()=>{$$('#termBank .btn').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');selected=t});
+ $('#termBank').appendChild(b)
+});
+[...matches].sort(()=>Math.random()-.5).forEach(([t,d])=>{
+ let z=document.createElement('div');z.className='target';z.innerHTML='<b>'+d+'</b><div class="small"></div>';
+ z.addEventListener('click',()=>{if(!selected||z.dataset.done)return;if(selected===t){z.dataset.done='1';z.classList.add('done');z.querySelector('div').textContent='✓ '+selected;const src=$$('#termBank .btn').find(x=>x.dataset.term===selected);if(src)src.remove();selected=null;solved++;$('#matchStatus').textContent='Correct matches: '+solved+'/'+matches.length;if(solved===matches.length)markActivity('match')}else{$('#matchStatus').textContent='Not quite. Compare the wording to the principle definitions.'}});
+ $('#matchBank').appendChild(z)
+});
+
+const scenarios=[
+{q:'A facial-recognition model is 96% accurate overall but makes many more mistakes for one demographic group.',o:['Transparency','Fairness','Accountability','Privacy'],a:1,e:'Fairness is the strongest concern because subgroup error rates differ.'},
+{q:'Students receive an AI-generated risk score but are never told AI is being used.',o:['Transparency','Reliability','Inclusiveness','Security'],a:0,e:'Transparency is the main concern because people do not know AI influenced an important outcome.'},
+{q:'A company says, “The algorithm made the decision, so nobody here is responsible.”',o:['Privacy','Human Oversight','Accountability','Explainability'],a:2,e:'Accountability means humans and organizations remain responsible.'},
+{q:'An algebra tutor asks students to upload complete health records even though it does not need them.',o:['Fairness','Privacy','Transparency','Reliability'],a:1,e:'Privacy and data minimization are the strongest concerns.'},
+{q:'A doctor sees evidence that an AI recommendation is wrong, but the system does not allow an override.',o:['Human Oversight','Inclusiveness','Security','Transparency'],a:0,e:'Human oversight requires practical ability to intervene.'},
+{q:'A voice assistant works well for some accents but poorly for others.',o:['Accountability','Inclusiveness','Explainability','Security'],a:1,e:'Inclusiveness asks whether different people can use and benefit from the system.'},
+{q:'A customer is told that AI helped deny a loan but receives no meaningful reason for the decision.',o:['Explainability','Inclusiveness','Security','Reliability'],a:0,e:'Explainability focuses on understandable reasons for a specific important output.'},
+{q:'A self-driving feature performs well in daylight but fails frequently in heavy rain.',o:['Privacy','Transparency','Reliability & Safety','Accountability'],a:2,e:'Reliability and safety require realistic testing across expected operating conditions.'},
+{q:'A company has good ethics statements but no approval process, owner, monitoring plan, or authority to stop risky AI.',o:['AI Governance','Inclusiveness','Explainability','Accuracy'],a:0,e:'The missing piece is governance: policies, roles, approvals, monitoring, and escalation.'},
+{q:'An organization asks, “Should we automate this decision at all, considering dignity and possible harm?”',o:['Security','Ethics','Accuracy','Data Cleaning'],a:1,e:'This is fundamentally an ethical question about what should be done.'}
+];
+scenarios.forEach((s,i)=>{
+ let box=document.createElement('div');box.className='card';box.innerHTML='<b>'+(i+1)+'. '+s.q+'</b>';
+ s.o.forEach((opt,j)=>{let b=document.createElement('button');b.className='choice';b.textContent=opt;b.addEventListener('click',()=>{if(box.dataset.done)return;box.dataset.done='1';box.querySelectorAll('.choice').forEach((x,k)=>{if(k===s.a)x.classList.add('correct');else if(x===b)x.classList.add('wrong')});let f=document.createElement('div');f.className='feedback show';f.textContent=s.e;box.appendChild(f);markActivity('scenarios')});box.appendChild(b)});
+ $('#scenarioArea').appendChild(box)
+});
+
+const audit=[
+['What human problem are we trying to solve, and do we actually need AI?','good'],
+['Who could benefit and who could be harmed?','good'],
+['Could students with limited technology access be flagged more often for the wrong reason?','good'],
+['Can we keep the model secret so students cannot question it?','bad'],
+['Will a teacher or counselor review the recommendation before action?','good'],
+['How can a student correct inaccurate data or appeal an outcome?','good'],
+['Are we using the prediction to provide support rather than automatically punish students?','good'],
+['Who is accountable if the model causes harm?','good'],
+['What will we monitor after deployment?','good']
+];
+audit.forEach(([t,v],i)=>{let lab=document.createElement('label');lab.style.display='block';lab.style.margin='7px 0';lab.innerHTML='<input type="checkbox" value="'+v+'"> '+t;$('#auditChoices').appendChild(lab)});
+$('#checkAudit').addEventListener('click',()=>{const xs=$$('#auditChoices input'),good=xs.filter(x=>x.value==='good'&&x.checked).length,bad=xs.filter(x=>x.value==='bad'&&x.checked).length,ok=good===8&&bad===0;$('#auditFeedback').innerHTML=ok?'<div class="callout good" style="margin-top:10px">Excellent. Your audit considers purpose, fairness, human well-being, oversight, appeal, accountability, and monitoring.</div>':'<div class="callout warn" style="margin-top:10px">You selected '+good+' of 8 appropriate questions. Responsible AI favors transparency and challenge—not secrecy.</div>';if(ok)markActivity('audit')});
+
+const quiz=[
+['Who creates Responsible AI principles?', ['Only Microsoft','Only governments','Many organizations including governments, standards bodies, companies, researchers, and civil society','Only AI models'],2],
+['Which is one of Microsoft’s six Responsible AI principles?', ['Fairness','Maximum automation','Market share','Speed'],0],
+['Which principle asks whether people receive unjustifiably different outcomes?', ['Transparency','Fairness','Security','Explainability'],1],
+['Which principle asks whether people know AI is being used?', ['Transparency','Reliability','Inclusiveness','Privacy'],0],
+['Which principle identifies who must answer for harm?', ['Accuracy','Accountability','Compression','Inclusiveness'],1],
+['Which concept gives humans practical ability to review or override AI?', ['Human Oversight','Security','Fairness','Governance only'],0],
+['A model can be accurate overall and still be unfair.', ['True','False','Only in healthcare','Only if it is generative'],0],
+['What is ethics?', ['Only obeying software documentation','Reasoning about what should be done, fairness, harm, responsibility, and human well-being','Only legal compliance','Model tuning'],1],
+['Why does AI need ethical consideration?', ['Because AI decisions can scale and affect rights, safety, opportunity, and well-being','Because computers have emotions','Only because AI is expensive','Only in schools'],0],
+['How are ethics and Responsible AI connected?', ['They are unrelated','Ethics gives values; Responsible AI turns those values into practices and safeguards','Responsible AI replaces ethics','Ethics is only for philosophers'],1],
+['What is AI governance?', ['Only a government law','Policies, roles, approvals, documentation, monitoring, and accountability for AI','A neural network layer','A type of chatbot'],1],
+['Which NIST AI RMF function focuses on policies, culture, and accountability?', ['Map','Measure','Govern','Predict'],2],
+['Which NIST AI RMF function focuses on understanding context and affected people?', ['Map','Manage','Govern','Train'],0],
+['Which NIST AI RMF function focuses on evaluating risk and trustworthiness?', ['Measure','Deploy','Generate','Store'],0],
+['Which NIST AI RMF function focuses on prioritizing and responding to risks?', ['Manage','Label','Explain','Compress'],0],
+['What should happen before collecting data and building a model?', ['Define the purpose and affected people','Select the biggest model','Remove human oversight','Deploy immediately'],0],
+['Which question is primarily about privacy?', ['Should this personal data be collected at all?','Why did I receive this score?','Who can override this decision?','Does one group get more errors?'],0],
+['Which question is primarily about explainability?', ['Why did I receive this AI result?','Should the organization collect this data?','Who owns the system?','Can every accent use the tool?'],0],
+['What should happen after AI deployment?', ['Nothing if testing passed','Monitor drift, complaints, new harms, misuse, and changing conditions','Remove accountability','Hide performance data'],1],
+['If serious harm cannot be reduced to an acceptable level, what can be responsible?', ['Deploy anyway','Restrict, pause, or stop the system','Remove documentation','Increase automation'],1]
+];
+function buildQuiz(){
+ $('#quizArea').innerHTML='';$('#quizScore').textContent='';
+ quiz.forEach((q,i)=>{let box=document.createElement('div');box.className='quizQ';box.innerHTML='<b>'+(i+1)+'. '+q[0]+'</b>';q[1].forEach((o,j)=>{let lab=document.createElement('label');lab.innerHTML='<input type="radio" name="q'+i+'" value="'+j+'"> '+o;box.appendChild(lab)});$('#quizArea').appendChild(box)})
+}
+$('#gradeQuiz').addEventListener('click',()=>{let s=0;quiz.forEach((q,i)=>{let x=document.querySelector('input[name=q'+i+']:checked');if(x&&+x.value===q[2])s++});$('#quizScore').textContent='Score: '+s+'/'+quiz.length+(s>=16?' — Mastery achieved ✅':' — Review the lesson sections and try again.');if(s>=16)markActivity('quiz')});
+$('#resetQuiz').addEventListener('click',buildQuiz);
+buildQuiz();updateProgress();
+
+
+$$('.lessonCompleteChoice').forEach(btn=>btn.addEventListener('click',()=>{
+  const box=document.getElementById('completionCheck');
+  if(box.dataset.done)return;
+  box.dataset.done='1';
+  $$('.lessonCompleteChoice').forEach(b=>{
+    if(b.dataset.ok==='1') b.classList.add('correct');
+    else if(b===btn) b.classList.add('wrong');
+  });
+  const f=document.getElementById('completionFeedback');
+  f.classList.add('show');
+  if(btn.dataset.ok==='1'){
+    f.textContent='Correct. Responsible AI combines ethical values, technical testing, governance, human oversight, and continuous monitoring.';
+    markActivity('completion');
+  } else {
+    f.textContent='Review the lesson. Responsible AI is broader than accuracy or bias alone and keeps humans accountable throughout the lifecycle.';
+  }
+}));
+
+let currentSectionId='start';
+const sectionObserver=new IntersectionObserver(entries=>{
+  const visible=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
+  if(visible) currentSectionId=visible.target.id;
+},{threshold:[.2,.4,.6]});
+sectionIds.forEach(id=>sectionObserver.observe(document.getElementById(id)));
+
+function cleanSpeechText(el){
+  const clone=el.cloneNode(true);
+  clone.querySelectorAll('button,input,select,a,script,style').forEach(x=>{
+    if(x.tagName==='A') x.replaceWith(document.createTextNode(x.textContent));
+    else x.remove();
+  });
+  return clone.innerText.replace(/\s+/g,' ').trim();
+}
+function speakText(text){
+  if(!('speechSynthesis' in window)){
+    alert('Text-to-speech is not supported in this browser.');
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.rate=parseFloat(document.getElementById('speechRate').value||'1');
+  u.pitch=1;
+  u.volume=1;
+  window.speechSynthesis.speak(u);
+}
+document.getElementById('readSectionBtn').addEventListener('click',()=>{
+  const sec=document.getElementById(currentSectionId) || document.getElementById('start');
+  speakText(cleanSpeechText(sec));
+});
+document.getElementById('pauseSpeechBtn').addEventListener('click',()=>{
+  if('speechSynthesis' in window) window.speechSynthesis.pause();
+});
+document.getElementById('resumeSpeechBtn').addEventListener('click',()=>{
+  if('speechSynthesis' in window) window.speechSynthesis.resume();
+});
+document.getElementById('stopSpeechBtn').addEventListener('click',()=>{
+  if('speechSynthesis' in window) window.speechSynthesis.cancel();
+});
+document.getElementById('printBtn').addEventListener('click',()=>{
+  if('speechSynthesis' in window) window.speechSynthesis.cancel();
+  window.print();
+});
+
+</script>
+</body>
+</html>
