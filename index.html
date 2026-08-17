@@ -259,14 +259,14 @@ summary{cursor:pointer;font-weight:bold}
 <div class="step"><div class="num">2</div><div><b>Identify stakeholders, benefits, and harms.</b><br>Who uses it? Who is affected? What happens if it is wrong?</div></div>
 <div class="step"><div class="num">3</div><div><b>Assess whether AI should be used.</b><br>Some decisions may be too sensitive, unnecessary, or high-risk for full automation.</div></div>
 <div class="step"><div class="num">4</div><div><b>Choose appropriate data.</b><br>Relevant, representative, accurate, authorized, protected, and limited to what is necessary.</div></div>
-<div class="step"><div class="num">5</div><div><b>Choose the right target.</b><br>Are we measuring what we actually care about or merely using a convenient proxy?</div></div>
+<div class="step"><div class="num">5</div><div><b>Choose the right target.</b><br>Are we measuring what we actually care about, or are we using a convenient <b>proxy</b>—an easier-to-measure stand-in that may not mean the same thing? <span class="small">Example: a school may care about “student learning” but use “time logged into a website” as a proxy. Login time is easy to measure, but a student can be logged in without learning, or learn while offline. The proxy can therefore give a misleading picture.</span></div></div>
 <div class="step"><div class="num">6</div><div><b>Build with safeguards.</b><br>Privacy, security, acceptable-use rules, limits, and human control should be designed in—not added at the end.</div></div>
 <div class="step"><div class="num">7</div><div><b>Test performance and fairness.</b><br>Evaluate overall performance, relevant subgroups, false positives, false negatives, unusual conditions, accessibility, and safety.</div></div>
 <div class="step"><div class="num">8</div><div><b>Add transparency and explainability.</b><br>Tell people when appropriate and provide understandable explanations for important outcomes.</div></div>
 <div class="step"><div class="num">9</div><div><b>Add meaningful human oversight.</b><br>Create review, override, appeal, escalation, and stop mechanisms.</div></div>
 <div class="step"><div class="num">10</div><div><b>Assign accountability.</b><br>Name the person/team responsible for approval, complaints, monitoring, and remediation.</div></div>
 <div class="step"><div class="num">11</div><div><b>Deploy carefully.</b><br>Use staged rollout, limits, documentation, training, and safe fallback procedures when appropriate.</div></div>
-<div class="step"><div class="num">12</div><div><b>Monitor and improve.</b><br>Watch for drift, changing populations, misuse, complaints, new harms, and model degradation.</div></div>
+<div class="step"><div class="num">12</div><div><b>Monitor and improve.</b><br>Watch for <b>model drift</b>—when the real world changes after the model was trained, so old patterns no longer work as well—plus changing populations, misuse, complaints, new harms, and model degradation. <span class="small">Example: a fraud model trained on last year’s purchasing patterns may become less accurate when scammers change tactics or customers begin using new payment methods. A model can be good when launched and become less reliable later, which is why monitoring matters.</span></div></div>
 <div class="step"><div class="num">13</div><div><b>Correct, restrict, or stop.</b><br>If risks cannot be reduced enough, responsible governance may require retiring the AI system.</div></div>
 </section>
 
@@ -308,16 +308,159 @@ summary{cursor:pointer;font-weight:bold}
 
 <section id="glossary">
 <div class="sectionHead"><div><h2>13. Simple-Language Glossary</h2><p>Use this section whenever a term feels unfamiliar.</p></div></div>
-<details><summary>Responsible AI</summary><p>Designing, building, using, and monitoring AI in ways that maximize benefits and reduce unacceptable risks and harms.</p></details>
-<details><summary>Ethics</summary><p>Reasoning about what we should do, what is fair, what may cause harm, and what responsibilities we have to other people.</p></details>
-<details><summary>AI Governance</summary><p>The policies, roles, approval processes, standards, documentation, monitoring, and accountability used to control AI inside an organization.</p></details>
-<details><summary>Fairness</summary><p>Examining whether people or groups receive unjustifiably different outcomes, treatment, opportunities, or errors.</p></details>
-<details><summary>Transparency</summary><p>Making important information visible, including whether AI is used, its purpose, and major limitations.</p></details>
-<details><summary>Explainability</summary><p>Helping a person understand why an AI system produced an important output or recommendation.</p></details>
-<details><summary>Accountability</summary><p>Assigning humans or organizations responsibility for AI decisions and remediation.</p></details>
-<details><summary>Human Oversight</summary><p>Meaningful human ability to review, question, override, appeal, or stop an AI system.</p></details>
-<details><summary>Model Drift</summary><p>When real-world conditions change and the model no longer performs like it did during testing.</p></details>
-<details><summary>Proxy Variable</summary><p>A measurable feature used as a stand-in for something else. A proxy may unintentionally carry bias.</p></details>
+<details><summary>Responsible AI</summary>
+<p><b>Beginner meaning:</b> <b>Responsible AI</b> means designing, building, using, and monitoring AI in ways that try to create useful benefits while reducing unfairness, unsafe behavior, privacy problems, misuse, and other unacceptable harms.</p>
+<p><b>Simple example:</b> A school wants to use AI to identify students who may need academic support. Responsible AI does not mean simply choosing the model with the highest accuracy. The school should also ask whether the data is appropriate, whether some students are incorrectly flagged more often, whether students know AI is being used, whether a human reviews the recommendation, and what happens if the AI is wrong.</p>
+<p><b>Why it matters:</b> AI can influence real opportunities and decisions. A system can be technically impressive and still be irresponsible if it is unfair, unsafe, secretive, invasive, or used without meaningful human control.</p>
+<p><b>Do not confuse it with:</b> Making AI perfect or eliminating every possible risk. Responsible AI means identifying important risks, reducing them appropriately, assigning responsibility, monitoring the system, and being willing to restrict or stop it when risks are unacceptable.</p>
+<p><b>Memory question:</b> “Are we creating and using this AI in a way that protects people while achieving a useful purpose?”</p>
+</details>
+<details><summary>Ethics</summary>
+<p><b>Beginner meaning:</b> <b>Ethics</b> is reasoning about what we <i>should</i> do—not only what we <i>can</i> do. It asks whether a choice is fair, whether it may harm people, whose rights and well-being are affected, and what responsibilities we have to others.</p>
+<p><b>Simple example:</b> A school may technically be able to collect large amounts of student data. An ethical question is whether collecting all of that information is necessary, appropriate, and respectful of students.</p>
+<p><b>AI example:</b> Before building an AI system that predicts which students may fail, an ethical question comes first: “Should this decision be automated at all, and could the prediction unfairly label or harm a student?”</p>
+<p><b>Why it matters:</b> Technology tells us what is possible. Ethics helps people decide what is acceptable and what protects fairness, dignity, rights, safety, choice, and human well-being.</p>
+<p><b>Do not confuse it with:</b> Law. Laws tell us what is legally required or prohibited. Ethics can ask broader questions about what is right or responsible even when no specific law answers the situation.</p>
+<p><b>Memory question:</b> “Just because we can use AI this way, should we?”</p>
+</details>
+<details><summary>AI Governance</summary>
+<p><b>Beginner meaning:</b> <b>AI governance</b> is the organized system an institution uses to make sure its AI rules and Responsible AI principles are actually followed. It includes policies, assigned roles, approval processes, documentation, testing requirements, monitoring, and procedures for responding to problems.</p>
+<p><b>Simple example:</b> A school district does not simply tell teachers to “use AI responsibly.” It may define which AI tools are approved, what student data may be entered, who reviews higher-risk uses, what testing is required, who handles complaints, and who has authority to stop a system.</p>
+<p><b>Why it matters:</b> Principles such as fairness and accountability are difficult to enforce if nobody knows who is responsible or what process must be followed. Governance turns responsible intentions into repeatable organizational actions.</p>
+<p><b>Do not confuse it with:</b> Government. The word <i>governance</i> does not mean that only governments control AI. A company, hospital, school, or other organization can have its own AI governance system.</p>
+<p><b>Easy distinction:</b> Ethics asks, “What should we do?” Responsible AI asks, “What principles and practices help us do it responsibly?” AI governance asks, “What rules, roles, approvals, and monitoring make sure it actually happens?”</p>
+<p><b>Memory question:</b> “Who makes the AI rules, who approves the system, who monitors it, and who can stop it?”</p>
+</details>
+<details><summary>Fairness</summary>
+<p><b>Beginner meaning:</b> <b>Fairness</b> asks whether an AI system creates unjustified differences in treatment, opportunities, outcomes, or errors for different people or groups.</p>
+<p><b>Simple example:</b> Two students submit work of the same quality. It would be unfair if one consistently received a lower grade for a reason unrelated to the quality of the work.</p>
+<p><b>AI example:</b> A facial-recognition system may report 96% accuracy overall but make many more mistakes for one demographic group. The high overall accuracy does not automatically make the system fair.</p>
+<p><b>Why it matters:</b> AI can influence hiring, education, healthcare, loans, safety, and other opportunities. Unequal error rates or outcomes can place more of the system’s burden on particular groups.</p>
+<p><b>Do not confuse it with:</b> Giving everyone exactly the same outcome. Fairness is about whether differences are justified and whether the system creates inappropriate disadvantages—not guaranteeing identical results for every person.</p>
+<p><b>Memory question:</b> “Who gets worse outcomes or more errors, and is there a valid reason for that difference?”</p>
+</details>
+<details><summary>Transparency</summary>
+<p><b>Beginner meaning:</b> <b>Transparency</b> means making important information about an AI system visible and understandable enough for the people who need to know. This can include telling people that AI is being used, what its purpose is, what information it uses, and what important limitations it has.</p>
+<p><b>Simple example:</b> A store places a notice explaining that cameras are operating instead of secretly recording customers.</p>
+<p><b>AI example:</b> If AI helps screen job applications, applicants should not necessarily be left believing that only a human reviewed their application. Appropriate transparency tells them that AI is involved and what role it plays.</p>
+<p><b>Why it matters:</b> People cannot meaningfully question, evaluate, or respond to an AI-influenced process if they do not know the AI exists or how it is being used.</p>
+<p><b>Do not confuse it with:</b> Explainability. Transparency answers questions such as “Is AI being used and for what purpose?” Explainability focuses more specifically on “Why did the system produce this particular result?”</p>
+<p><b>Memory question:</b> “Do the people who need to know understand that AI is involved, what it is doing, and its important limitations?”</p>
+</details>
+<details><summary>Explainability</summary>
+<p><b>Beginner meaning:</b> <b>Explainability</b> means helping people understand the important reasons behind an AI output, score, recommendation, or decision—especially when the result significantly affects them.</p>
+<p><b>Simple example:</b> A teacher does not only give a student 72%; the teacher explains which parts of the work caused points to be lost.</p>
+<p><b>AI example:</b> A loan applicant receives a denial. An understandable explanation might identify important factors that influenced the decision rather than simply saying, “The computer gave you a low score.”</p>
+<p><b>Why it matters:</b> Explanations can help people identify incorrect information, question an outcome, improve a future application, or determine whether the system is using inappropriate factors.</p>
+<p><b>Do not confuse it with:</b> Transparency. A company can transparently say, “We use AI to evaluate applications,” while still failing to explain why a particular applicant received a particular result.</p>
+<p><b>Memory question:</b> “Can the affected person understand why this AI result happened?”</p>
+</details>
+<details><summary>Accountability</summary>
+<p><b>Beginner meaning:</b> <b>Accountability</b> means that a person, team, or organization remains responsible for an AI system, the decisions made about its use, and what happens when the system causes a problem. Responsibility cannot simply be passed to “the algorithm.”</p>
+<p><b>Simple example:</b> If an employee makes a serious mistake while doing assigned work, an organization needs a process for investigating and correcting the problem. It cannot claim that nobody is responsible.</p>
+<p><b>AI example:</b> If a bank uses AI to help make loan decisions, the bank remains responsible for how that system is selected, tested, monitored, and used. Saying “the algorithm denied the loan” does not remove organizational responsibility.</p>
+<p><b>Why it matters:</b> Without accountability, harmful systems can continue because everyone assumes someone else is responsible. Clear ownership helps ensure complaints are investigated, errors are corrected, risks are monitored, and harm is addressed.</p>
+<p><b>Do not confuse it with:</b> Human oversight. Accountability asks <b>who is responsible</b>. Human oversight asks <b>who can practically review, intervene, override, or stop the AI</b>. The two work together but are not identical.</p>
+<p><b>Memory question:</b> “Who must answer for this AI system and make sure problems are corrected?”</p>
+</details>
+<details><summary>Human Oversight</summary>
+<p><b>Beginner meaning:</b> <b>Human oversight</b> means giving qualified people meaningful—not merely symbolic—ability to review an AI result, question it, use additional context, override it, hear an appeal, or stop the system when necessary.</p>
+<p><b>Simple example:</b> An automatic attendance system marks a student absent, but a teacher can correct the record after learning that the student was participating from an approved location.</p>
+<p><b>AI example:</b> A clinician receives an AI recommendation but sees medical evidence that disagrees. Meaningful human oversight means the clinician can reject or override the recommendation rather than being forced to follow it.</p>
+<p><b>Why it matters:</b> AI may miss context, use incorrect data, encounter unusual situations, or make mistakes. Human review can provide judgment and information that the model does not have.</p>
+<p><b>Meaningful is important:</b> Simply placing a human in the process is not enough if that person lacks training, information, time, or authority to challenge the model. Oversight must give the human a realistic ability to intervene.</p>
+<p><b>Do not confuse it with:</b> Accountability. Oversight is the practical ability to intervene in an AI process. Accountability identifies who remains responsible for the system and its consequences.</p>
+<p><b>Memory question:</b> “Can a qualified human actually question, correct, override, or stop the AI when needed?”</p>
+</details>
+<details><summary>Model Drift</summary>
+<p><b>Beginner meaning:</b> A model learns patterns from data collected at a certain time. Later, people, behavior, technology, language, prices, fraud methods, or other real-world conditions may change. When those old learned patterns no longer match the current world, the model’s predictions can become less accurate or less fair. This is called <b>model drift</b>.</p>
+<p><b>Simple example:</b> Imagine a school builds a model using several years of attendance patterns to identify students who may need support. Later, the school changes schedules and introduces more online learning. The old relationship between attendance and academic difficulty may no longer work the same way.</p>
+<p><b>Why it matters in Responsible AI:</b> Testing a model once is not enough. Organizations should continue checking accuracy, subgroup performance, complaints, and unexpected outcomes after deployment.</p>
+<p><b>Do not confuse it with:</b> A programming bug. Drift can happen even when the software code has not changed; the <i>world around the model</i> changed.</p>
+</details>
+<details><summary>Proxy Variable</summary>
+<p><b>Beginner meaning:</b> A <b>proxy variable</b> is something we can measure and use as a stand-in for something we really care about but cannot measure directly or easily. The proxy and the real idea are related, but they are <b>not automatically the same thing</b>.</p>
+<p><b>Simple example:</b> A teacher wants to understand student learning but uses “minutes logged into the learning website” as a proxy. Login time may provide some information, but it does not directly measure understanding.</p>
+<p><b>AI example:</b> Suppose a system wants to estimate who needs more healthcare but uses past healthcare spending as a proxy for health need. Spending can be affected by insurance, access, location, and whether someone was able to receive care. Therefore, lower spending does not necessarily mean lower medical need.</p>
+<p><b>Why a proxy can create bias:</b> If access or past treatment differs across groups, the proxy may reproduce those differences. A model can accurately predict the proxy and still make a poor or unfair decision about the thing we actually care about.</p>
+<p><b>Memory question:</b> “Are we measuring the real thing we care about, or only an easier stand-in?”</p>
+</details>
+
+<details><summary>Historical Data</summary>
+<p><b>Meaning:</b> Data that records what happened in the past—such as past hiring decisions, loan approvals, grades, purchases, or medical treatment.</p>
+<p><b>Why it matters:</b> Historical data is not automatically neutral. If past decisions reflected unequal access, stereotypes, old policies, or discrimination, an AI trained on that history can learn those patterns.</p>
+<p><b>Memory idea:</b> Historical data tells us <i>what happened</i>; it does not automatically tell us <i>what should happen</i>.</p>
+</details>
+<details><summary>Training Data</summary>
+<p><b>Meaning:</b> The examples a model studies to learn patterns. It is similar to giving a student practice examples before asking the student to solve a new problem.</p>
+<p><b>Example:</b> A spam filter may learn from thousands of emails labeled “spam” or “not spam.” If the examples are poor, incomplete, or biased, the learned model can also be poor or biased.</p>
+</details>
+<details><summary>Feature</summary>
+<p><b>Meaning:</b> A piece of information given to a model as an input to help it make a prediction.</p>
+<p><b>Example:</b> In a loan model, income, debt, and payment history might be features. A feature is information the model <i>uses</i>; it is not the outcome the model is trying to predict.</p>
+</details>
+<details><summary>Target / Target Variable</summary>
+<p><b>Meaning:</b> The outcome the model is trying to predict or estimate.</p>
+<p><b>Example:</b> If a model uses attendance and assignment completion to predict whether a student may need academic support, “needs academic support” is the target.</p>
+<p><b>Why it matters:</b> A model can be technically accurate at predicting the wrong target. Responsible AI asks whether the target truly represents the human goal.</p>
+</details>
+<details><summary>Representative Data</summary>
+<p><b>Meaning:</b> Data that includes enough examples of the people, situations, and conditions where the AI will actually be used.</p>
+<p><b>Example:</b> A voice system intended for many users should be tested with different accents, speaking styles, ages, microphones, and environments—not only one narrow group.</p>
+</details>
+<details><summary>Subgroup</summary>
+<p><b>Meaning:</b> A smaller group within the full population that we examine separately to see whether the model works differently for them.</p>
+<p><b>Example:</b> A model might have 95% accuracy overall but much lower accuracy for a particular age group or accent. Looking only at the overall number could hide that problem.</p>
+</details>
+<details><summary>False Positive</summary>
+<p><b>Meaning:</b> The model says something is positive or present when it is actually not.</p>
+<p><b>Example:</b> A fraud detector blocks a legitimate purchase because it incorrectly predicts “fraud.”</p>
+<p><b>Responsible AI question:</b> Who is harmed when the model raises a false alarm?</p>
+</details>
+<details><summary>False Negative</summary>
+<p><b>Meaning:</b> The model says something is negative or absent when it is actually present.</p>
+<p><b>Example:</b> A fraud detector allows a fraudulent purchase because it incorrectly predicts “not fraud.”</p>
+<p><b>Responsible AI question:</b> Who is harmed when the model misses a real problem?</p>
+</details>
+<details><summary>Data Minimization</summary>
+<p><b>Meaning:</b> Collecting and keeping only the data that is genuinely needed for the stated purpose.</p>
+<p><b>Example:</b> An algebra tutoring app may need student answers and progress, but it normally would not need a student’s complete medical history.</p>
+<p><b>Why it matters:</b> Less unnecessary personal data usually means fewer opportunities for misuse, exposure, or inappropriate decisions.</p>
+</details>
+<details><summary>Stakeholder</summary>
+<p><b>Meaning:</b> A person or group that uses the AI, is affected by it, builds it, oversees it, or may experience benefits or harms from it.</p>
+<p><b>Example:</b> For a school support model, stakeholders could include students, families, teachers, counselors, administrators, and the technology team.</p>
+</details>
+<details><summary>Deployment</summary>
+<p><b>Meaning:</b> Putting an AI system into real use after development and testing.</p>
+<p><b>Important:</b> Deployment is not the end of Responsible AI. Real-world performance, complaints, drift, misuse, and new harms still need monitoring.</p>
+</details>
+<details><summary>Staged Rollout</summary>
+<p><b>Meaning:</b> Introducing an AI system gradually instead of giving it to everyone at once.</p>
+<p><b>Example:</b> A school might test a support tool with a small group first, review errors and feedback, fix problems, and only then expand its use.</p>
+<p><b>Why it matters:</b> A smaller rollout can reveal problems before they affect a much larger population.</p>
+</details>
+<details><summary>Safe Fallback</summary>
+<p><b>Meaning:</b> A safer backup process used when the AI is uncertain, unavailable, or behaving unexpectedly.</p>
+<p><b>Example:</b> Instead of automatically denying an important request when the model is uncertain, the case could be sent to a trained human for review.</p>
+</details>
+<details><summary>Threshold</summary>
+<p><b>Meaning:</b> A cutoff used to turn a model’s score into an action or category.</p>
+<p><b>Example:</b> If a model produces a risk score from 0 to 100, an organization might decide that scores above 80 receive human review. Changing the threshold can change the number of false positives and false negatives.</p>
+</details>
+<details><summary>Escalation</summary>
+<p><b>Meaning:</b> A planned way to send a serious, uncertain, disputed, or harmful AI situation to someone with greater authority or expertise.</p>
+<p><b>Example:</b> A teacher questions a student-risk prediction and sends it to a counselor or review team rather than automatically acting on the score.</p>
+</details>
+<details><summary>Remediation</summary>
+<p><b>Meaning:</b> Actions taken to correct a problem and reduce or repair harm after it is discovered.</p>
+<p><b>Examples:</b> Correcting inaccurate data, changing a model, adjusting a process, reviewing affected decisions, notifying people, or providing an appeal.</p>
+</details>
+<details><summary>Model Degradation</summary>
+<p><b>Meaning:</b> A decline in how well the model performs over time. Drift is one possible cause, but degradation can also result from changes in data quality, system integrations, user behavior, or operating conditions.</p>
+<p><b>Memory idea:</b> Drift describes change in patterns or conditions; degradation describes the model performing worse.</p>
+</details>
+
 </section>
 
 
